@@ -1,4 +1,7 @@
-Serialization functions for built-in octave data types.
+serialize
+=========
+
+Serialization functions for built-in [GNU Octave data types](http://www.gnu.org/software/octave/doc/interpreter/Built_002din-Data-Types.html#Built_002din-Data-Types).
 
 With this you can get a human-readable string from an octave object which can be retrieved with "eval". The intended purpose is to serialize object for transmission over byte-stream channels or for storage in databases while perserve
 the readability by humans(in contrast to the usage of typecast for example).
@@ -20,5 +23,26 @@ octave:6> x2 = eval(s);
 octave:7> assert(x,x2, 16 * eps)
 ```
 
-What's missing:
-Support for sparse matrizes
+What's missing or incomplete:
+Sparse matrices are converted to a full storage matrix before serialization:
+
+```
+octave:1> a=zeros(3,3);
+octave:2> a(randi(9,4,1))=rand(4,1)
+a =
+
+   0.93699   0.00000   0.98636
+   0.00000   0.00000   0.22614
+   0.00000   0.00000   0.16638
+
+octave:3> serialize(a)
+ans = [0.936989854208168 0 0.986359461519538;0 0 0.226137740875076;0 0 0.166379880758295]
+```
+
+Bugs
+----
+Zarro Boogs Found
+
+License
+-------
+GPLv3
