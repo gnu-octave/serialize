@@ -29,6 +29,9 @@ endfunction
 %!test check_it (1.23456i)
 %!test check_it (-1.23456j)
 
+## Inf, NA, NaN
+%!test check_it ([1 2 inf NA NaN])
+
 ## 2D matrix
 %!test check_it ([1,2;3,4])
 %!test check_it ([1,2*pi;3,4.12i])
