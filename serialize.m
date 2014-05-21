@@ -4,7 +4,7 @@ function ret = serialize(obj)
   %% * Have a look at all functions with malicious code injection in mind.
   if (ismatrix (obj))
     if (ischar (obj))
-      ret = ["char(", serialize_matrix(uint8(obj)), ")"];
+      ret = ['char(', serialize_matrix(uint8(obj)), ')'];
     else
       ret = serialize_matrix(obj);
     endif
@@ -44,11 +44,11 @@ function ret = serialize_cell_array (in)
   else
     s = size (in);
     n = ndims (in);
-    ret = sprintf ("cat(%i,", n);
+    ret = sprintf ('cat(%i,', n);
     for (k = 1:size (in, n))
-      idx.type = "()";
+      idx.type = '()';
       idx.subs = cell(n,1);
-      idx.subs(:) = ":";
+      idx.subs(:) = ':';
       idx.subs(n) = k;
       tmp = subsref (in, idx);
       ret = [ret, serialize_2d_cell(tmp)];
@@ -67,11 +67,11 @@ function ret = serialize_matrix(m)
   else
     s = size (m);
     n = ndims (m);
-    ret = sprintf ("cat(%i,", n);
+    ret = sprintf ('cat(%i,', n);
     for (k = 1:size (m, n))
-      idx.type = "()";
+      idx.type = '()';
       idx.subs = cell(n,1);
-      idx.subs(:) = ":";
+      idx.subs(:) = ':';
       idx.subs(n) = k;
       tmp = subsref (m, idx);
       ret = [ret, serialize_matrix(tmp)];
@@ -94,7 +94,7 @@ function ret = serialize_struct(in)
     else
       tmp = serialize(val);
     endif
-    ret = [ ret '"' key '",' tmp ','];
+    ret = [ ret '''' key ''',' tmp ','];
   endfor
   ret = [ ret(1:end-1) ')'];
 end
