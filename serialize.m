@@ -4,20 +4,20 @@ function ret = serialize(obj)
   %% * Have a look at all functions with malicious code injection in mind.
   if (ismatrix (obj))
     if (ischar (obj))
-      ret = ["char(", __serialize_matrix__(uint8(obj)), ")"];
+      ret = ["char(", serialize_matrix(uint8(obj)), ")"];
     else
-      ret = __serialize_matrix__(obj);
+      ret = serialize_matrix(obj);
     endif
   elseif (iscell (obj))
-    ret = __serialize_cell_array__(obj);
+    ret = serialize_cell_array(obj);
   elseif (isstruct (obj))
-    ret = __serialize_struct__(obj);
+    ret = serialize_struct(obj);
   else
     error('serialize for class "%s", type "%s" isn''t supported yet', class (obj), typeinfo (obj));
   endif
-endfunction
+end
 
-function ret = __serialize_2d_cell__(in)
+function ret = serialize_2d_cell(in)
   assert (ndims (in) == 2);
   if (isempty (in))
     ret = '{}';
@@ -27,7 +27,7 @@ function ret = __serialize_2d_cell__(in)
       for (c = 1:columns (in))
         tmp = in{r,c};
         if (iscell (tmp))
-          ret = [ret __serialize_cell_array__(tmp) ','];
+          ret = [ret serialize_cell_array(tmp) ','];
         else
           ret = [ret serialize(tmp) ','];
         endif
@@ -36,10 +36,11 @@ function ret = __serialize_2d_cell__(in)
     endfor
     ret(end) = '}';
   endif
-endfunction
-function ret = __serialize_cell_array__ (in)
+end
+
+function ret = serialize_cell_array (in)
   if(ndims (in) == 2)
-    ret = __serialize_2d_cell__ (in);
+    ret = serialize_2d_cell (in);
   else
     s = size (in);
     n = ndims (in);
@@ -50,7 +51,7 @@ function ret = __serialize_cell_array__ (in)
       idx.subs(:) = ":";
       idx.subs(n) = k;
       tmp = subsref (in, idx);
-      ret = [ret, __serialize_2d_cell__(tmp)];
+      ret = [ret, serialize_2d_cell(tmp)];
       if (k < s(n))
         ret = [ret, ','];
       else
@@ -58,8 +59,9 @@ function ret = __serialize_cell_array__ (in)
       endif
     endfor
   endif
-endfunction
-function ret = __serialize_matrix__(m)
+end
+
+function ret = serialize_matrix(m)
   if (ndims (m) == 2)
     ret = mat2str (m);
   else
@@ -72,7 +74,7 @@ function ret = __serialize_matrix__(m)
       idx.subs(:) = ":";
       idx.subs(n) = k;
       tmp = subsref (m, idx);
-      ret = [ret, __serialize_matrix__(tmp)];
+      ret = [ret, serialize_matrix(tmp)];
       if (k < s(n))
         ret = [ret, ','];
       else
@@ -80,8 +82,9 @@ function ret = __serialize_matrix__(m)
       endif
     endfor
   endif
-endfunction
-function ret = __serialize_struct__(in)
+end
+
+function ret = serialize_struct(in)
   assert (isstruct(in));
   ret = 'struct(';
   for [val, key] = in
@@ -94,4 +97,4 @@ function ret = __serialize_struct__(in)
     ret = [ ret '"' key '",' tmp ','];
   endfor
   ret = [ ret(1:end-1) ')'];
-endfunction
+end
