@@ -11,14 +11,14 @@ function ret = serialize(obj)
       ret = ['char(', serialize_matrix(uint8(obj)), ')'];
     else
       ret = serialize_matrix(obj);
-    endif
+    end
   elseif (iscell (obj))
     ret = serialize_cell_array(obj);
   elseif (isstruct (obj))
     ret = serialize_struct(obj);
   else
     error('serialize for class "%s", type "%s" isn''t supported yet', class (obj), typeinfo (obj));
-  endif
+  end
 end
 
 function ret = serialize_2d_cell(in)
@@ -34,12 +34,12 @@ function ret = serialize_2d_cell(in)
           ret = [ret serialize_cell_array(tmp) ','];
         else
           ret = [ret serialize(tmp) ','];
-        endif
-      endfor
+        end
+      end
       ret(end) = ';';
-    endfor
+    end
     ret(end) = '}';
-  endif
+  end
 end
 
 function ret = serialize_cell_array (in)
@@ -60,9 +60,9 @@ function ret = serialize_cell_array (in)
         ret = [ret, ','];
       else
         ret = [ret, ')'];
-      endif
-    endfor
-  endif
+      end
+    end
+  end
 end
 
 function ret = serialize_matrix(m)
@@ -83,9 +83,9 @@ function ret = serialize_matrix(m)
         ret = [ret, ','];
       else
         ret = [ret, ')'];
-      endif
-    endfor
-  endif
+      end
+    end
+  end
 end
 
 function ret = serialize_struct(in)
@@ -97,8 +97,8 @@ function ret = serialize_struct(in)
       tmp = ['{' serialize(val) '}'];
     else
       tmp = serialize(val);
-    endif
+    end
     ret = [ ret '''' key ''',' tmp ','];
-  endfor
+  end
   ret = [ ret(1:end-1) ')'];
 end
