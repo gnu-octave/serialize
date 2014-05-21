@@ -1,7 +1,7 @@
 function ret = serialize(obj)
-  ## TODO:
-  ## * add documentation
-  ## * Have a look at all functions with malicious code injection in mind.
+  %% TODO:
+  %% * add documentation
+  %% * Have a look at all functions with malicious code injection in mind.
   if (ismatrix (obj))
     if (ischar (obj))
       ret = ["char(", __serialize_matrix__(uint8(obj)), ")"];
@@ -85,7 +85,7 @@ function ret = __serialize_struct__(in)
   assert (isstruct(in));
   ret = 'struct(';
   for [val, key] = in
-    #iscell(val)
+    %iscell(val)
     if (iscell(val) && isscalar(in))
       tmp = ['{' serialize(val) '}'];
     else
