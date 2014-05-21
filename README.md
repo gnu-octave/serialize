@@ -3,7 +3,7 @@ serialize
 
 Serialization functions for built-in [GNU Octave data types](http://www.gnu.org/software/octave/doc/interpreter/Built_002din-Data-Types.html#Built_002din-Data-Types).
 
-With this you can get a human-readable string from an octave object which can be retrieved with "eval". The intended purpose is to serialize object for transmission over byte-stream channels or for storage in databases while perserve
+With this you can get a human-readable string from an octave object which can be retrieved with "eval". The intended purpose is to serialize objects for transmission over byte-stream channels or for storage in databases while perserve
 the readability by humans(in contrast to the usage of typecast for example).
 
 The principle is as with JSON: eval(serialize(data)) == data
