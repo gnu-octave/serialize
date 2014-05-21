@@ -1,3 +1,9 @@
+
+matlab branch
+-------------
+
+same as master, but all in one file + matlab compatible (needed for go-redis and go-sqlite)   
+
 serialize
 =========
 
