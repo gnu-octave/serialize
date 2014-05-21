@@ -23,8 +23,8 @@ function ret = serialize_2d_cell(in)
     ret = '{}';
   else
     ret = '{';
-    for (r = 1:rows (in))
-      for (c = 1:columns (in))
+    for (r = 1:size (in,1))
+      for (c = 1:size (in,2))
         tmp = in{r,c};
         if (iscell (tmp))
           ret = [ret serialize_cell_array(tmp) ','];
