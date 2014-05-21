@@ -100,7 +100,7 @@ function ret = serialize_struct(in)
     else
       tmp = serialize(val);
     end
-    ret = [ ret '''' key ''',' tmp ','];
+    ret = [ ret char(39) key char(39) ',' tmp ','];
   end
   ret = [ ret(1:end-1) ')'];
   ret = strjoin (ret);
