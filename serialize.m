@@ -1,7 +1,49 @@
+## Copyright (C) 2014 Andreas Weber <andy.weber.aw@gmail.com>
+##
+## This program is free software; you can redistribute it and/or modify it under
+## the terms of the GNU General Public License as published by the Free Software
+## Foundation; either version 3 of the License, or (at your option) any later
+## version.
+##
+## This program is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+## FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+## details.
+##
+## You should have received a copy of the GNU General Public License along with
+## this program; if not, see <http:##www.gnu.org/licenses/>.
+
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} serialize (@var{obj})
+## Serialize built-in octave datatype.
+##
+## Return a human-readable string which can be processed with "eval" to
+## retrieve @var{obj}.
+##
+## @example
+## @group
+## x = [1,2;3,4];
+## serialize(x)
+##   @result{} [1 2;3 4]
+## @end group
+## @end example
+##
+## @example
+## @group
+## a.x = [ 3 4 5];
+## a.y = @{pi, @{7,8@}@};
+## serialize(a)
+##   @result{} struct("x",[3 4 5],"y",@{@{3.14159265358979,@{7,8@}@}@})
+## @end group
+## @end example
+##
+## See the test section of serialize.m for more examples.
+## @end deftypefn
+
 function ret = serialize(obj)
-  ## TODO:
-  ## * add documentation
-  ## * Have a look at all functions with malicious code injection in mind.
+  if (nargin != 1 || nargout > 1)
+    print_usage ();
+  endif
   if (ismatrix (obj))
     if (ischar (obj))
       ret = ["char(", __serialize_matrix__(uint8(obj)), ")"];
@@ -13,7 +55,7 @@ function ret = serialize(obj)
   elseif (isstruct (obj))
     ret = __serialize_struct__(obj);
   else
-    error('serialize for class "%s", type "%s" isn''t supported yet', class (obj), typeinfo (obj));
+    error('serialize for class "%s", type "%s" isn''t supported', class (obj), typeinfo (obj));
   endif
 endfunction
 
