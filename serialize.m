@@ -103,5 +103,10 @@ function ret = serialize_struct(in)
     ret = [ ret char(39) key char(39) ',' tmp ','];
   end
   ret = [ ret(1:end-1) ')'];
-  ret = strjoin (ret);
+  
+  if exist('strjoin')==2
+	  ret = strjoin (ret);
+	else
+		ret = [ret{:}];
+	end
 end
