@@ -1,3 +1,7 @@
+%% Untested(!) Matlab Branch of github.com/octave-de/serialize
+%% Should work with GNU Octave as well
+%% GPLv3 - go https://github.com/octave-de/serialize for more!!
+
 function ret = serialize(obj)
   %% TODO:
   %% * add documentation
