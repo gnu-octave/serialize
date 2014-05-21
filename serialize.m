@@ -91,8 +91,10 @@ end
 function ret = serialize_struct(in)
   assert (isstruct(in));
   ret = 'struct(';
-  for [val, key] = in
-    %iscell(val)
+  f = fieldnames(in);
+  for n = 1:numel(f)
+    val=in.(f{n});
+    key=f(n);
     if (iscell(val) && isscalar(in))
       tmp = ['{' serialize(val) '}'];
     else
@@ -101,4 +103,5 @@ function ret = serialize_struct(in)
     ret = [ ret '''' key ''',' tmp ','];
   end
   ret = [ ret(1:end-1) ')'];
+  ret = strjoin (ret);
 end
