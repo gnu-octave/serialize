@@ -6,16 +6,16 @@ function ret = serialize(obj)
   %% TODO:
   %% * add documentation
   %% * Have a look at all functions with malicious code injection in mind.
-  if (ismatrix (obj))
+  if (isstruct (obj))
+    ret = serialize_struct(obj);
+  elseif (iscell (obj))
+    ret = serialize_cell_array(obj);
+  elseif (ismatrix (obj))
     if (ischar (obj))
       ret = ['char(', serialize_matrix(uint8(obj)), ')'];
     else
       ret = serialize_matrix(obj);
     end
-  elseif (iscell (obj))
-    ret = serialize_cell_array(obj);
-  elseif (isstruct (obj))
-    ret = serialize_struct(obj);
   else
     error('serialize for class "%s", type "%s" isn''t supported yet', class (obj), typeinfo (obj));
   end
