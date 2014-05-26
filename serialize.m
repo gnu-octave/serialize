@@ -17,7 +17,7 @@ function ret = serialize(obj)
       ret = serialize_matrix(obj);
     end
   else
-    error('serialize for class "%s", type "%s" isn''t supported yet', class (obj), typeinfo (obj));
+    error('Unsupported object! :(');
   end
 end
 
