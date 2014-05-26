@@ -107,19 +107,14 @@ function ret = serialize_struct(in)
   f = fieldnames(in);
   for n = 1:numel(f)
     val=in.(f{n});
-    key=f(n);
+    key=[char(39) f(n) char(39)];
     if (iscell(val) && isscalar(in))
       tmp = ['{' serialize(val) '}'];
     else
       tmp = serialize(val);
     end
-    ret = [ ret char(39) key char(39) ',' tmp ','];
+    ret = [ ret key ',' tmp ','];
   end
   ret = [ ret(1:end-1) ')'];
-  
-  if exist('strjoin')==2
-	  ret = strjoin (ret);
-	else
-		ret = [ret{:}];
-	end
+	ret = [ret{:}];
 end
