@@ -10,7 +10,7 @@ function ret = serialize(obj)
     ret = serialize_struct(obj);
   elseif (iscell (obj))
     ret = serialize_cell_array(obj);
-  elseif (ismatrix (obj))
+  elseif (is_matrix (obj))
     if (ischar (obj))
       ret = ['char(', serialize_matrix(uint8(obj)), ')'];
     else
@@ -19,6 +19,17 @@ function ret = serialize(obj)
   else
     error('serialize for class "%s", type "%s" isn''t supported yet', class (obj), typeinfo (obj));
   end
+end
+
+function ret = is_matrix(in)
+	%% let's guess!
+	if ~iscell(in) && numel(size(in))>2
+		ret = 1;
+	elseif ismatrix(in)
+		ret = 1;
+	else
+		ret = 0;
+	end
 end
 
 function ret = serialize_2d_cell(in)
