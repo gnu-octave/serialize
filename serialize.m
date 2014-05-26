@@ -85,9 +85,11 @@ function ret = serialize_matrix(m)
     ret = sprintf ('cat(%i,', n);
     for (k = 1:size (m, n))
       idx.type = '()';
-      idx.subs = cell(n,1);
-      idx.subs(:) = ':';
-      idx.subs(n) = k;
+      % idx.subs = cell(n,1);
+      % idx.subs(:) = ':';
+      idx.subs = repmat({':'},n,1);
+      % idx.subs(n) = k;
+      idx.subs{n,1} = k;
       tmp = subsref (m, idx);
       ret = [ret, serialize_matrix(tmp)];
       if (k < s(n))
