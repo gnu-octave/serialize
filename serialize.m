@@ -44,12 +44,10 @@ function ret = serialize(obj)
   if (nargin != 1 || nargout > 1)
     print_usage ();
   endif
-  if (ismatrix (obj))
-    if (ischar (obj))
-      ret = ["char(", __serialize_matrix__(uint8(obj)), ")"];
-    else
-      ret = __serialize_matrix__(obj);
-    endif
+  if (isnumeric (obj))
+    ret = __serialize_matrix__(obj);
+  elseif (ischar (obj))
+    ret = ["char(", __serialize_matrix__(uint8(obj)), ")"];
   elseif (iscell (obj))
     ret = __serialize_cell_array__(obj);
   elseif (isstruct (obj))
