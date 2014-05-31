@@ -145,7 +145,7 @@ endfunction
 %!endfunction
 
 ## [complex] scalars
-%!test check_it (uint8(5))
+%!test check_it (int8(5))
 %!test check_it (uint8(5))
 %!test check_it (int16(-500))
 %!test check_it (1.23456)
