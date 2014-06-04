@@ -44,10 +44,8 @@ function ret = serialize(obj)
   if (nargin != 1 || nargout > 1)
     print_usage ();
   endif
-  if (isnumeric (obj))
+  if (isnumeric (obj) || ischar (obj))
     ret = __serialize_matrix__(obj);
-  elseif (ischar (obj))
-    ret = ["char(", __serialize_matrix__(uint8(obj)), ")"];
   elseif (iscell (obj))
     ret = __serialize_cell_array__(obj);
   elseif (isstruct (obj))
@@ -59,7 +57,15 @@ endfunction
 
 function ret = __serialize_matrix__(m)
   if (ndims (m) == 2)
-    ret = mat2str (m);
+    if (ischar (m))
+      ret = '[';
+      for k = 1:rows (m)
+        ret = [ret, '"', undo_string_escapes(m(k,:)), '";'];
+      endfor
+      ret(end) = ']';
+    else
+      ret = mat2str (m);
+    endif
   else
     s = size (m);
     n = ndims (m);
@@ -177,6 +183,9 @@ endfunction
 %!test check_it ("huhu");
 %!test check_it ("hello world\nsecond line");
 %!test check_it ('hello world\nstill first line');
+%!test check_it (["hello";"hi"]);
+%!test check_it (cat(3, ["hi ";"ho "], ["xyz";"x"]));
+
 
 ## cells
 %!test check_it ({})
