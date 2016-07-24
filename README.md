@@ -45,7 +45,9 @@ ans = [0.936989854208168 0 0.986359461519538;0 0 0.226137740875076;0 0 0.1663798
 
 TODO
 ----
-Have a look at all functions with malicious code injection in mind.
+* Have a look at all functions with malicious code injection in mind.
+* Use "reshape" instead of nested "cat"
+* Merge examples from http://stackoverflow.com/questions/38553645/generalization-of-mat2str-to-cell-arrays/38555254
 
 License
 -------
